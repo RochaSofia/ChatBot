@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="chatbox" [hidden]="displayChat">
+    <div class="chatbox__header" (click)="chat()">
+      <div class="chatbox__content--header">
+        <span class="circle_chatbot_img">
+          <img src="../../../../assets/bot2.png" class="chatbot_img" />
+        </span>
+
+        <div >
+          <h4 class="chatbox__heading--header">Chat</h4>
+          <p class="chatbox__description--header">Ola, como posso ajudar?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chatbox__messages">
+      <div
+        [ngClass]="input.usuario ? 'chatbox__ballons' : 'chatbox__ballonBot'"
+        *ngFor="let input of mensagens"
+        [innerHTML]="input.mensagem"
+      ></div>
+      
+
+      <div class="suggestion_ballons">
+        <p
+          class="suggestion_ballon"
+          (click)="getCursos('Python')"
+          *ngIf="suggestion_Button == true"
+          style="color: aliceblue"
+        >
+          Python
+        </p>
+        <p
+          class="suggestion_ballon"
+          (click)="getCursos('Java')"
+          *ngIf="suggestion_Button == true"
+          style="color: aliceblue"
+        >
+          Java
+        </p>
+      </div>
+    </div>
+    <div class="chatbox__footer">
+      <form (subimit)="onSubmit()" class="chatbox_form">
+        <input
+          [(ngModel)]="valor"
+          type="text"
+          placeholder="escrever"
+          name="valor"
+          (keyup.enter)="enviarDado()"
+        />
+        <span (click)="enviarDado()" class="chatbox__send--footer send__button"
+          ><img src="../../assets/send.png" class="img_send" alt="#"
+        /></span>
+      </form>
+    </div>
+  </div>
+  <div class="chatbox__button">
+    <span (click)="chat()" *ngIf="displayChat === true">
+      <img src="../../assets/chat .png" />
+    </span>
+    <span (click)="chat()" *ngIf="displayChat === false"
+      ><img src="../../assets/up_arrow.png"
+    /></span>
+  </div>
+</div>
