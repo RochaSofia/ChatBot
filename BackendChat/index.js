@@ -1,33 +1,4 @@
-// // const { error } = require('console');
-// // const fs = require('fs');
-
-
-// // // const courses = require('./JSON/courses.json');
-// // // console.log(courses);
-
-// // fs.readFile('./JSON/courses.json','utf-8',(error,data) =>{
-
-// //     try{
-// //     const courses = JSON.parse(data);
-// //     console.log(courses.titleCourse); 
-// //     }catch(e){
-// //         console.log(e);
-// //     }
-    
-// // })
-
-// const express = require('express');
-// const server = express();
-
-// server.
-
-
-
-
-
-
-// server.listen(3000);
-
+const { json } = require('express');
 const express = require('express');
 const fs = require('fs');
 
@@ -46,6 +17,38 @@ app.get('/course', (req, res) => {
       try {
         const course = JSON.parse(data);
         res.json(course);
+      } catch (error) {
+        console.error('Erro ao analisar o arquivo JSON:', error);
+        res.status(500).send('Erro ao analisar o arquivo JSON.');
+      }
+    }
+  });
+});
+
+app.get('/course/:course', (req, res) => {
+  const courses = './JSON/courses.json';
+  const titleCourse = req.params.course.toLowerCase();
+  // req.body.titleCourse.toLowerCase();
+  fs.readFile(courses, 'utf-8', (err, data) => {
+    
+
+    if (err) {
+      console.error('Erro ao ler o arquivo JSON:', err);
+      res.status(500).send('Erro ao ler o arquivo JSON.');
+    } else {
+      try {
+        const cursos = JSON.parse(data);
+        const cursoEncontrado = cursos.find(curso => curso.titleCourse.toLowerCase() === titleCourse.toLowerCase());
+        
+
+        if (cursoEncontrado) {
+          // result= 
+          const result =  "Titulo:" + cursoEncontrado.titleCourse + "link" + cursoEncontrado.linkCourse;
+          res.json(result);
+
+        } else {
+          res.status(404).send('Curso não encontrado.');
+        }
       } catch (error) {
         console.error('Erro ao analisar o arquivo JSON:', error);
         res.status(500).send('Erro ao analisar o arquivo JSON.');
