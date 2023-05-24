@@ -1,3 +1,4 @@
+// import { Curso } from './../chat/model/Curso';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Injectable } from '@angular/core';
@@ -23,17 +24,30 @@ import json from '../curso/cursos';
 })
 
 export class ServiceModule {
-  constructor(private HttpClient: HttpClient) {}
 
-  getCursosbyName(curso_titulo:string){
-    let curso = json.cursos_List.find(c=>c.curso_titulo.toLowerCase()===curso_titulo.toLowerCase())
+  url = 'http://localhost:3000/';
+
+  constructor(private http: HttpClient) {}
+
+  getCursosbyName(titleCourse:string){
+    let curso = json.cursos_List.find(c=>c.titleCourse.toLowerCase()===titleCourse.toLowerCase())
     if(curso === undefined ){
       return "Não encontramos o curso desejado!"
     }else{
-      let resultcurso = "Titulo: " + curso?.curso_titulo + " Link: <a href=\"" + curso?.curso_link + "\" target=\"_blank\">Clique aqui</a>"
+      let resultcurso = "Titulo: " + curso?.titleCourse + " Link: <a href=\"" + curso?.linkCourse + "\" target=\"_blank\">Clique aqui</a>"
     return resultcurso
     }
 
+  }
+
+  getCoursesbyName(titleCourse:string){
+    console.log("front")
+    console.log("tipo"+this.http
+      .get(`${this.url}/course/${titleCourse}`));
+      
+    return this.http
+    .get(`${this.url}/course/${{titleCourse}}`);
+  //  const result= // return result?.titleCourse
   }
 
   handleError(error: HttpErrorResponse) {

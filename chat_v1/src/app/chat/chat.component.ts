@@ -37,6 +37,7 @@ export class ChatComponent implements OnInit {
   ngOnInit() {}
   displayChat = true;
   suggestion_Button = true;
+
   // bot = false;
 
   chat() {
@@ -57,7 +58,7 @@ export class ChatComponent implements OnInit {
   getCursos(cursotitulo: string) {
     this.suggestion_Button = false;
     this.mensagens.push({ mensagem: cursotitulo, usuario: true });
-    this.mensagemResposta(this.service.getCursosbyName('Python'));
+    this.mensagemResposta(this.service.getCoursesbyName('Python'));
     this.mensagemResposta(
       'Se ainda gostaria da minha ajuda,digite um curso ou tecnologia.Precisa de mim ainda?'
     );
@@ -76,10 +77,19 @@ export class ChatComponent implements OnInit {
       if (this.valor.toLocaleLowerCase() == 'não') {
         this.mensagens.push({ mensagem: 'Adeus', usuario: false });
       } else {
-        this.mensagemResposta(this.service.getCursosbyName(this.valor));
-        this.mensagemResposta(
-          'Se ainda gostaria da minha ajuda,digite um curso ou tecnologia.Precisa de mim ainda?'
-        );
+        console.log("ok1");
+        // this.mensagemResposta(this.service.getCoursesbyName(this.valor));
+        // console.log(this.service.getCoursesbyName(this.valor));
+        // this.mensagemResposta(
+        //   'Se ainda gostaria da minha ajuda,digite um curso ou tecnologia.Precisa de mim ainda?'
+        // );
+        // solução2
+        const respostaCurso = await this.service.getCoursesbyName(this.valor);
+        console.log("ok");
+      console.log(respostaCurso);
+      this.mensagemResposta(respostaCurso);
+      this.mensagemResposta('Se ainda gostaria da minha ajuda, digite um curso ou tecnologia. Precisa de mim ainda?');
+
       }
     }
     this.valor = ''; //Limpa a barra onde digita
@@ -87,7 +97,7 @@ export class ChatComponent implements OnInit {
 
   async mensagemResposta(respostaCurso: any) {
     this.mensagens.push({
-      mensagem: String(respostaCurso),
+      mensagem: respostaCurso,
       usuario: false,
       error: false,
     });
